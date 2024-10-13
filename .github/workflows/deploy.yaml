@@ -23,8 +23,8 @@ jobs:
         # npm install
         # npm run build
         mkdir ./public
-        mv index.hmtl ./public
-        mv 400.hmtl ./public
+        mv index.htmt ./public
+        mv 400.html ./public
     
     - name: Rsync
       uses: burnett01/rsync-deployments@7.0.1
