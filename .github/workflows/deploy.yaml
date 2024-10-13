@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+name: Deploy website
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v4
+
+# Uncomment if you need Node.js to build your site
+#	- name: Use Node.js
+#      uses: actions/setup-node@v2
+#      with:
+#        node-version: '20'
+
+    - name: Build Project
+      run: |
+        # Add steps here to build you website, no needed for example site
+        # npm install
+        # npm run build
+        mkdir ./public
+        mv index.hmtl ./public
+        mv 400.hmtl ./public
+    
+    - name: Rsync
+      uses: burnett01/rsync-deployments@7.0.1
+      with:
+        switches: -avzr --delete
+        path: public/
+        remote_path: /var/www/my-awesome-website.robinvanderknaap.dev/html
+        remote_host: my-awesome-website.robinvanderknaap.dev
+        remote_user: root
+        remote_key: ${{ secrets.SSH_KEY_DEPLOY }}
